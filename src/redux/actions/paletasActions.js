@@ -1,4 +1,4 @@
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { dataBase } from "../../Firebase/firebaseConfig";
 import { paletasTypes } from "../types/userTypes";
 
@@ -32,5 +32,25 @@ const actionGetPaletasSync = (paletas) => {
     payload: {
       paletas: paletas,
     },
+  };
+};
+
+export const actionAddPaletaAsync = (paleta) => {
+  return async (dispatch) => {
+    try {
+      const paletasCollection = collection(dataBase, collectionName);
+      const docs = await addDoc(paletasCollection, paleta);
+      dispatch(actionAddPaletaSync({ id: docs.id, ...paleta}));
+    } catch (error) {
+      console.log(error);
+      dispatch(actionAddPaletaSync({}));
+    }
+  };
+};
+
+const actionAddPaletaSync = (paleta) => {
+  return {
+    type: paletasTypes.PALETAS_ADD,
+    payload: paleta,
   };
 };

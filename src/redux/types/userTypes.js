@@ -5,5 +5,6 @@ export const userTypes = {
 };
 
 export const paletasTypes = {
-    PALETAS_GET: 'PALETAS_GET'
+  PALETAS_GET: 'PALETAS_GET',
+  PALETAS_ADD:'PALETAS_ADD'
 }
