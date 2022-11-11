@@ -10,15 +10,17 @@ export const paletasReducer = (state = initialState, action) => {
       return {
         ...state,
         paletas: action.payload.paletas,
-          };
-      case paletasTypes.PALETAS_ADD:
-          return {
-              ...state,
-              paletas: [
-                  ...state.paletas,
-                  action.payload
-              ]
-          }
+      };
+    case paletasTypes.PALETAS_ADD:
+      return {
+        ...state,
+        paletas: [...state.paletas, action.payload],
+      };
+    case paletasTypes.PALETAS_FILTERED:
+      return {
+        ...state,
+        paletas: action.payload.paletas,
+      };
     default:
       return state;
   }

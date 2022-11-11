@@ -6,8 +6,10 @@ import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { actionFilterAsync, actionGetPaletasAsync } from "../redux/actions/paletasActions";
 import { actionLogoutAsync } from "../redux/actions/userActions";
 
 const logo = "https://cdn-icons-png.flaticon.com/512/4433/4433191.png";
@@ -28,11 +30,29 @@ const activeNavLinkStyles = {
 };
 
 const NavigationBar = ({ isAutentication }) => {
-    const dispatch = useDispatch();
-    const {photoURL} = useSelector(store=>store.user)
+  const dispatch = useDispatch();
+  const {register, handleSubmit}= useForm()
+  const { photoURL } = useSelector((store) => store.user);
   const onCloseSession = () => {
     dispatch(actionLogoutAsync());
   };
+
+  const onSearch = (data) => {
+    const searchParam = data.search
+    console.log(searchParam);
+    dispatch(actionFilterAsync(searchParam));
+  }
+
+  const restorePaletas = ({target}) => {
+    if (target.value.trim() === '') {
+      dispatch(actionGetPaletasAsync());
+    }
+  }
+  // const onChangeSearch = (e) => {
+  //   const searchParam = e.target.value;
+  //   dispatch(actionFilterAsync(searchParam));
+  // };
+
   return (
     <div>
       <Navbar key={"md"} bg="light" expand={"md"} className="mb-3">
@@ -72,14 +92,17 @@ const NavigationBar = ({ isAutentication }) => {
                       + Paletas
                     </NavLink>
                   </Nav>
-                  <Form className="d-flex m-3">
+                  <Form className="d-flex m-3" onSubmit={handleSubmit(onSearch)}>
                     <Form.Control
                       type="search"
+                      {...register("search", {required: true})}
                       placeholder="Search"
                       className="me-2"
                       aria-label="Search"
+                      onChange={restorePaletas}
+                      // onChange={onChangeSearch}
                     />
-                    <Button variant="outline-success">Search</Button>
+                    <Button type='submit' variant="outline-success">Search</Button>
                   </Form>
                   <OverlayTrigger
                     placement="bottom"

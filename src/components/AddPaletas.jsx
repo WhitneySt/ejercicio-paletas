@@ -6,58 +6,8 @@ import * as yup from "yup";
 import { fileUpLoad } from "../services/fileUpLoad";
 import { useDispatch } from "react-redux";
 import { actionAddPaletaAsync } from "../redux/actions/paletasActions";
+import { category, inputList } from "../services/dates";
 
-const inputList = [
-  {
-    label: "Nombre",
-    type: "text",
-    name: "name",
-  },
-  {
-    label: "Categoría",
-    type: "select",
-    name: "category",
-  },
-  {
-    label: "Descripción",
-    type: "textarea",
-    name: "description",
-  },
-  {
-    label: "Precio",
-    type: "number",
-    name: "price",
-  },
-  {
-    label: "Cantidad",
-    type: "number",
-    name: "quantity",
-  },
-  {
-    label: "Imagen",
-    type: "file",
-    name: "image",
-  },
-];
-
-const category = [
-  {
-    label: "paleta de agua",
-    value: 1,
-  },
-  {
-    label: "paleta de crema",
-    value: 2,
-  },
-  {
-    label: "paleta mixta",
-    value: 3,
-  },
-  {
-    label: "paleta con relleno",
-    value: 4,
-  },
-];
 
 const schema = yup.object({
   name: yup.string().required("Debe ingresar el nombre de la paleta"),
