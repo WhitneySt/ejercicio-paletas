@@ -1,12 +1,16 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionLoginAsync } from "../redux/actions/userActions";
+import {
+  actionLoginAsync,
+  actionLoginGoogleOrFacebook,
+} from "../redux/actions/userActions";
 import { Link } from "react-router-dom";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Swal from "sweetalert2";
+import { loginProvider } from "../services/dates";
 
 const schema = yup.object({
   email: yup
@@ -41,6 +45,10 @@ const Login = () => {
     }
   };
 
+  const handleLoginGoogleOrFacebook = (provider) => {
+    dispatch(actionLoginGoogleOrFacebook(provider));
+  };
+
   return (
     <div className="p-5">
       <h1>Iniciar Sesión</h1>
@@ -69,6 +77,19 @@ const Login = () => {
         </Button>
       </Form>
       <Link to="/Register">¿Desea crear una cuenta?</Link>
+      <div style={{ display: "flex", gap: "20px", marginTop: "20px" }}>
+        {loginProvider.map((provider, index) => (
+          <img
+            key={index}
+            src={provider.image}
+            alt={provider.name}
+            style={{ width: "40px", cursor: "pointer" }}
+            onClick={() => {
+              handleLoginGoogleOrFacebook(provider.provider);
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
